@@ -1,0 +1,193 @@
+body {
+  padding: 0px;
+  margin: 0px;
+}
+
+#topbar {
+  align-content: center;
+  overflow: hidden;
+  height: 50px;
+  width: 100%;
+  margin-left: 0px;
+  transition: 0.5s;
+  background-color: red;
+  border-bottom-color: lightblue;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+}
+
+#sidenav-toggle-btn {
+  margin-left: 0px;
+}
+
+.route-name {
+  display: inline;
+  margin: 10px;
+}
+
+.account-btn {
+  /* display: inline-block; */
+  float: right;
+}
+
+#sidenavbar {
+  position: absolute;
+  min-height: 100% !important;
+  height: 100%;
+  width: 0px;
+  z-index: 1;
+  background-color: #252011;
+  top: 0;
+  left: 0;
+  overflow-x: hidden;
+  padding: 0px;
+  transition: 0.5s;
+}
+
+.sidenav .dp-tag {
+  color: white;
+  font-size: 30px;
+  text-align: center;
+}
+
+.sidenav .dp {
+  height: 150px;
+  width: 150px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 50%;
+  border-color: white;
+  border-width: 2px;
+  padding: 5px 5px;
+  border-style: solid;
+  /* border-radius: 300px; */
+}
+
+#main {
+  transition: .5s;
+  /* padding: 20px; */
+  margin-top: 50px;
+  margin-left: 50px;  
+  margin-right: 50px;
+}
+
+.btn {
+  cursor: pointer;
+  outline: none;
+}
+
+.icon-btn {
+  background-color: white;
+  border: none;
+  color: gray;
+  padding: 10px 14px;
+}
+
+.icon-btn:hover {
+  background-color: gray;
+  color: white;
+}
+
+#home-btn {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+a {
+  text-decoration: none;
+}
+
+#sidenavbar .route a{
+  color: white;
+  outline: none;
+}
+
+#sidenavbar .route a:hover {
+  color: grey;
+}
+
+#sidenavbar .route {
+  display: block;
+  background-color: transparent;
+  /* background-color: #464f0d; */
+  /* border-radius: 5px; */
+  /* margin: 5px; */
+  /* height: 10px; */
+}
+
+.accordion {
+  cursor: pointer;
+  color: white;
+  border-radius: 5px;
+}
+
+.root-panel {
+  padding: 0px;
+  background-color: #46402f;
+  border-radius: 5px;
+  /* display: block; */
+  height: 0px;
+  overflow: hidden;
+  transition: 0.5s;
+}
+
+.search-field {
+  width: 100%;
+  height: 40px;
+  font-size: 20px;
+  text-decoration-color:grey;
+  border-color: lightblue;
+  border-style: solid;
+  border-width: 2px;
+}
+
+.submit-btn {
+  padding: 8px 20px;
+  background-color: #328ee4;
+  color: white;
+  font-size: 20px;
+}
+
+.display-container {
+  padding: 20px 0px;
+}
+
+.doctor-tile {
+  padding: 10px 10px;
+  margin-top: 5px;
+  background-color: red;
+  border-radius: 20px;
+}
+
+.tile-dp {
+  display: inline-block;
+  height: 150px;
+  width: 150px;
+  border-radius: 50%;
+  background-color: white;
+}
+
+.about-doctor {
+  display: inline;
+  margin-left: 10px; /* top, right, bottom, left */
+  background-color: yellow;
+}
+
+.about-qual-div {
+  margin: 10px 50px;
+}
+
+.doctor-qualifications {
+  background-color: green;
+  margin-top: 10px;
+}
+
+.tile-btn {
+  float: right;
+  padding: 8px 10px;
+  background-color: #8dc731;
+  color: white;
+  font-size: 15px;
+}
