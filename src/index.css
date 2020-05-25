@@ -7,7 +7,7 @@ body {
   align-content: center;
   overflow: hidden;
   height: 50px;
-  width: 100%;
+  width: auto;
   margin-left: 0px;
   transition: 0.5s;
   background-color: red;
