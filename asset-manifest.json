@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/opd-management/static/css/main.b8ae7ab7.chunk.css",
+    "main.js": "/opd-management/static/js/main.767d848d.chunk.js",
+    "main.js.map": "/opd-management/static/js/main.767d848d.chunk.js.map",
+    "runtime-main.js": "/opd-management/static/js/runtime-main.5f1b4c91.js",
+    "runtime-main.js.map": "/opd-management/static/js/runtime-main.5f1b4c91.js.map",
+    "static/js/2.b1ac235a.chunk.js": "/opd-management/static/js/2.b1ac235a.chunk.js",
+    "static/js/2.b1ac235a.chunk.js.map": "/opd-management/static/js/2.b1ac235a.chunk.js.map",
+    "index.html": "/opd-management/index.html",
+    "precache-manifest.8df67c51afc88c61a8c501a8ef79462c.js": "/opd-management/precache-manifest.8df67c51afc88c61a8c501a8ef79462c.js",
+    "service-worker.js": "/opd-management/service-worker.js",
+    "static/css/main.b8ae7ab7.chunk.css.map": "/opd-management/static/css/main.b8ae7ab7.chunk.css.map",
+    "static/js/2.b1ac235a.chunk.js.LICENSE.txt": "/opd-management/static/js/2.b1ac235a.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.5f1b4c91.js",
+    "static/js/2.b1ac235a.chunk.js",
+    "static/css/main.b8ae7ab7.chunk.css",
+    "static/js/main.767d848d.chunk.js"
+  ]
+}
