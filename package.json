@@ -1,6 +1,6 @@
 {
   "homepage": "https://creepysta.github.io/opd-management",
-  "name": "opd-management-system",
+  "name": "opd-management",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
