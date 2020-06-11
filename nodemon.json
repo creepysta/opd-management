@@ -1,0 +1,7 @@
+{
+	"env": {
+		"MONGO_USER": "cheesy",
+		"MONGO_PASSWORD": "3u4DEsDqlLxVnANK",
+		"MONGO_DB": "opd-management" 
+	}
+}
