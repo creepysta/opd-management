@@ -1,6 +1,8 @@
 const bcrypt = require('bcryptjs');
-const Event = require('../../models/event');
-const User = require('../../models/user');
+const Doctor = require('../../models/event');
+const Patient = require('../../models/user');
+const Appointment = require('../../models/user');
+const Department = require('../../models/user');
 const jwt = require('jsonwebtoken');
 
 
@@ -65,9 +67,9 @@ module.exports = {
 		} else {
 			const token = jwt.sign({userId: checkUser.id, email: checkUser._doc.email}, 'some_key_for_validation',
 			{
-				expiresIn: '272h'
+				expiresIn: '1h'
 			});
-			return { userId: checkUser.id, token: token, tokenLife: 272};	
+			return { userId: checkUser.id, token: token, tokenLife: 1};	
 		}
 	}
 };

@@ -19,32 +19,6 @@ app.use((req,res, next) => {
 	next();
 })
 
-
-//query for sending request from frontend
-// /*
-fetch('http://localhost:8000/graphql', {
-	method: 'POST',
-	body: JSON.stringify(requestBody),
-	headers: {
-		'Content-Type': 'application/json'
-	}
-})
-	.then(res=> {
-		if(res.status !== 200 || res.status !== 201) {
-			throw new Error('Connection Failed.');
-		}
-		return res.json();
-	})
-	.then(resData => {
-		console.log(resData)
-	})
-	.catch(err=> {
-		console.log(err);
-		throw err;
-	});
-
-// */
-
 app.use(isAuth);
 app.use('/graphql', graphqlHttp({
 	schema: graphQlSchema,
