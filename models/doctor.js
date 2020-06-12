@@ -24,23 +24,23 @@ const doctorSchema = new Schema({
 			required: false
 		}
 	],
-	departments: [
+	department: {
+		type: Schema.Types.ObjectId,
+		ref: 'Department'
+	},
+	specializations: [
 		{
-			type: Schema.Types.ObjectId,
-			ref: 'Department'
+			type: String,
+			required: false
 		},
 	],
-	specialization: {
-		type: String,
-		required: true
-	},
 	appointments: [
 		{
 			type: Schema.Types.ObjectId,
 			ref: 'Appointment'
 		}
 	]
-},
-{ timestamps: true });
-
+});
+// ,{ timestamps: true }
+	
 module.exports = mongoose.model('Doctor', doctorSchema);

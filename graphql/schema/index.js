@@ -3,15 +3,17 @@ const { buildSchema } = require('graphql');
 module.exports = buildSchema(`
 type Appointment {
 	_id: ID!
-	doctorId: Doctor!
-	patientId: Patient!
-	departmentId: Department!
+	doctor: Doctor!
+	patient: Patient!
+	department: Department!
+	symptom: String
 	date: String!
 	slot: Int!
 }
 
 input AppointmentInput {
-	doctorId: String!
+	doctor: String!
+	symptom: String
 	date: String!
 }
 
@@ -24,6 +26,13 @@ type Patient {
 	appointments: [Appointment!]
 }
 
+input PatientInput {
+	name: String!
+	email: String!
+	age: Int!
+	password: String
+}
+
 type Doctor {
 	_id: ID!
 	name: String!
@@ -31,14 +40,32 @@ type Doctor {
 	password: String
 	experience: Int!
 	qualifications: [String!]
-	departments: [Department!]!
+	department: Department!
 	appointments: [Appointment!]
-	specialization: String!
+	specializations: [String!]
 }
 
-input UserInput {
+input DoctorInput {
+	name: String!
 	email: String!
 	password: String
+	experience: Int!
+	qualifications: [String!]
+	department: String!
+	specializations: [String!]
+}
+
+type Department {
+	_id: ID!
+	name: String!
+	doctorsCount: Int!
+	slots: Int!
+	remainingSlots: Int!
+}
+
+input DepartmentInput {
+	name: String!
+	slots: Int!
 }
 
 type Auth {
@@ -49,14 +76,18 @@ type Auth {
 
 type RootQuery {
 	doctors: [Doctor!]!
+	patients: [Patient!]!
+	departments: [Department!]!
+	appointments: [Appointment!]!
 	login(email: String!, password: String!): Auth
 }
 
 type RootMutation {
-	createEvent(eventInput: EventInput): Event
-	createUser(userInput: UserInput): User
-	scheduleAppointment(eventId: ID!): Appointment!
-	cancelAppointment(bookingId: ID!): Appointment!
+	createPatient(patientInput: PatientInput): Patient!
+	createDoctor(doctorInput: DoctorInput): Doctor!
+	createDepartment(departmentInput: DepartmentInput): Department!
+	scheduleAppointment(appointmentInput: AppointmentInput): Appointment!
+	cancelAppointment(appointmentId: ID!): Appointment!
 }
 
 schema {
