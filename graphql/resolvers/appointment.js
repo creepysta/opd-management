@@ -19,12 +19,14 @@ const getPatient = async id => {
 }
 
 module.exports = {
-	appointments: async ()=> {
+	appointments: async () => {
 		try {
 			const appointments = await Appointment.find();
 			return appointments.map(appointment => {
-				return {...appointment._doc, _id:appointment.id, patient: getPatient.bind(this, appointment.patient),
-									doctor: getDoctor.bind(this, appointment.doctor), department: getDepartment.bind(this, appointment.department)};
+				return {
+					...appointment._doc, _id: appointment.id, date: new Date(appointment.date).toISOString(), patient: getPatient.bind(this, appointment.patient),
+					doctor: getDoctor.bind(this, appointment.doctor), department: getDepartment.bind(this, appointment.department)
+				};
 			});
 		}
 		catch (err) {
@@ -36,10 +38,10 @@ module.exports = {
 			const patientId = "5ee25fccd9868929c0afd232";
 			const patient = await Patient.findById(patientId);
 			const doctor = await Doctor.findById(args.appointmentInput.doctor);
-			const checkAppointment = await Appointment.findOne({patient: patientId, doctor:doctor.id});
+			const checkAppointment = await Appointment.findOne({ patient: patientId, doctor: doctor.id });
 			const departmentId = (await Department.findById(doctor.department)).id;
-			if(checkAppointment) {
-				return {...checkAppointment._doc, _id: checkAppointment.id, department: getDepartment.bind(this, departmentId), patient: getPatient.bind(this, patientId), doctor: getDoctor.bind(this, args.appointmentInput.doctor) };
+			if (checkAppointment) {
+				return { ...checkAppointment._doc, _id: checkAppointment.id, date: new Date(checkAppointment.date).toISOString(), department: getDepartment.bind(this, departmentId), patient: getPatient.bind(this, patientId), doctor: getDoctor.bind(this, args.appointmentInput.doctor) };
 			}
 			console.log(departmentId);
 			const appointment = Appointment({
@@ -53,17 +55,21 @@ module.exports = {
 			const result = await appointment.save();
 			patient.appointments.push(result.id);
 			// console.log(patient._doc.appointments)
-			await patient.save(); 
+			await patient.save();
 			doctor.appointments.push(result.id);
 			// console.log(doctor._doc.appointments)
 			await doctor.save();
-			return { ...result._doc, _id: result.id, department: getDepartment.bind(this, departmentId), patient: getPatient.bind(this, patientId), doctor: getDoctor.bind(this, args.appointmentInput.doctor) };
+			return { ...result._doc, _id: result.id, date: new Date(cancelledAppointment.date).toISOString(), department: getDepartment.bind(this, departmentId), patient: getPatient.bind(this, patientId), doctor: getDoctor.bind(this, args.appointmentInput.doctor) };
 		}
 		catch (err) {
 			throw err;
 		}
 	},
-	cancelAppointment: async () => {
-
+	cancelAppointment: async ({ appointmentId }) => {
+		const cancelledAppointment = await Appointment.findById(appointmentId);
+		await Patient.findByIdAndUpdate(cancelledAppointment.patient, { $pullAll: { appointments: [appointmentId] } });
+		await Doctor.findByIdAndUpdate(cancelledAppointment.doctor, { $pullAll: { appointments: [appointmentId] } });
+		await Appointment.findByIdAndDelete(appointmentId);
+		return { ...cancelledAppointment._doc, date: new Date(cancelledAppointment.date).toISOString(), _id: cancelledAppointment.id, doctor: getDoctor.bind(this, cancelledAppointment.doctor), patient: getPatient.bind(this, cancelledAppointment.patient), department: getDepartment.bind(this, cancelledAppointment.department) }
 	}
 }
