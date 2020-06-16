@@ -10,6 +10,10 @@ const patientSchema = new Schema({
 		type: String,
 		required: true
 	},
+	dpUrl: {
+		type: String,
+		required: false,
+	},
 	age: {
 		type: Number,
 		required: true

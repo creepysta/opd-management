@@ -20,6 +20,7 @@ input AppointmentInput {
 type Patient {
 	_id: ID!
 	name: String!
+	dpUrl: String
 	email: String!
 	age: Int!
 	password: String
@@ -28,6 +29,7 @@ type Patient {
 
 input PatientInput {
 	name: String!
+	dpUrl: String
 	email: String!
 	age: Int!
 	password: String
@@ -36,6 +38,7 @@ input PatientInput {
 type Doctor {
 	_id: ID!
 	name: String!
+	dpUrl: String
 	email: String!
 	password: String
 	experience: Int!
@@ -47,6 +50,7 @@ type Doctor {
 
 input DoctorInput {
 	name: String!
+	dpUrl: String
 	email: String!
 	password: String
 	experience: Int!
@@ -76,10 +80,13 @@ type Auth {
 
 type RootQuery {
 	doctors: [Doctor!]!
+	doctorsByName(name: String!) : [Doctor!]!
 	patients: [Patient!]!
+	getPatient(id: String!) : Patient
+	getDoctor(id: String!) : Doctor
 	departments: [Department!]!
 	appointments: [Appointment!]!
-	login(email: String!, password: String!): Auth
+	login(email: String!, password: String!, userType: Int!): Auth
 }
 
 type RootMutation {
