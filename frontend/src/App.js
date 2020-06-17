@@ -119,19 +119,19 @@ class App extends Component {
 						<div id="main">
 							<Switch>
 								<Route exact path='/opd-management/' component={Home} />
-								<Route path='/opd-management/auth' component={AuthPage} />
-								<Route path='/opd-management/dashboard' component={Dashboard} />
-								<Route path='/opd-management/departments' component={Departments} />
-								<Route path='/opd-management/doctors' component={Doctors} />
-								<Route path='/opd-management/doctors/:id' component={Doctor} />
-								<Route path='/opd-management/patient' component={Patient} />
-								<Route path='/opd-management/schedule' component={Schedule} />
-								<Route path='/opd-management/appointments' component={Appointments} />
-								<Route path='/opd-management/prescriptions' component={Prescriptions} />
-								<Route path='/opd-management/case-mamanger' component={CaseManager} />
-								<Route path='/opd-management/enquiry' component={Enquiry} />
-								<Route path='/opd-management/settings' component={UserSettings} />
-								<Route path='/opd-management/contact-us' component={ContactUs} />
+								<Route exact path='/opd-management/auth' component={AuthPage} />
+								<Route exact path='/opd-management/dashboard' component={Dashboard} />
+								<Route exact path='/opd-management/departments' component={Departments} />
+								<Route exact path='/opd-management/doctors' component={Doctors} />
+								<Route exact path='/opd-management/doctors/:id' component={Doctor} />
+								<Route exact path='/opd-management/patient' component={Patient} />
+								<Route exact path='/opd-management/schedule' component={Schedule} />
+								<Route exact path='/opd-management/appointments' component={Appointments} />
+								<Route exact path='/opd-management/prescriptions' component={Prescriptions} />
+								<Route exact path='/opd-management/case-mamanger' component={CaseManager} />
+								<Route exact path='/opd-management/enquiry' component={Enquiry} />
+								<Route exact path='/opd-management/settings' component={UserSettings} />
+								<Route exact path='/opd-management/contact-us' component={ContactUs} />
 							</Switch>
 						</div>
 					</AuthContext.Provider>

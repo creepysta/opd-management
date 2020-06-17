@@ -33,9 +33,12 @@ module.exports = {
 			throw err;
 		}
 	},
-	scheduleAppointment: async args => {
+	scheduleAppointment: async (args, req) => {
+		if(!req.isAuth) {
+			throw new Error('Unauthenticated');
+		} 
 		try {
-			const patientId = "5ee25fccd9868929c0afd232";
+			const patientId = req.userId;
 			const patient = await Patient.findById(patientId);
 			const doctor = await Doctor.findById(args.appointmentInput.doctor);
 			const checkAppointment = await Appointment.findOne({ patient: patientId, doctor: doctor.id });

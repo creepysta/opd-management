@@ -6,7 +6,10 @@ module.exports = {
 		// console.log(id);
 		try {
 			const patient = await Patient.findById(id);
-			return { ...patient._doc, _id: patient.id, password: null};
+			if(patient)
+				return { ...patient._doc, _id: patient.id, password: null};
+			else 
+				return null;
 		}
 		catch (err) {
 			throw err;

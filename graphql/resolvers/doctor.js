@@ -4,7 +4,7 @@ const Doctor = require('../../models/doctor');
 const Department = require('../../models/department');
 const bcrypt = require('bcryptjs');
 
-const getDepartment = async ({id}) => {
+const getDepartment = async (id) => {
 	const department = await Department.findById(id);
 	return { ...department._doc, _id: department.id};
 }
@@ -13,7 +13,10 @@ module.exports = {
 	getDoctor: async (id) => {
 		try {
 			const doctor = await Doctor.findById(id);
-			return { ...doctor._doc, _id: doctor.id, password: null, department: getDepartment.bind(this, doctor.department) };
+			if(doctor)
+				return { ...doctor._doc, _id: doctor.id, password: null, department: getDepartment.bind(this, doctor.department) };
+			else
+				return null;
 		}
 		catch (err) {
 			throw err;
@@ -31,8 +34,12 @@ module.exports = {
 		}
 	},
 	doctorsByName: async ({ name }) => {
-		const doctors = await Doctor.find({name: {$regex: "*"+name+'*'}});
-		return doctors.map(doctor => {return{...doctor._doc, _id: doctor.id, department: getDepartment.bind(this, doctor.department)}});
+		try {
+			const doctors = await Doctor.find({name: {$regex: name, $options: 'i'}});
+			return doctors.map(doctor => {return{...doctor._doc, _id: doctor.id, department: getDepartment.bind(this, doctor.department)}});
+		} catch (err) {
+			throw err;
+		}
 	},
 	createDoctor: async args => {
 		try {
