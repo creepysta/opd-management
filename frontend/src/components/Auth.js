@@ -25,8 +25,8 @@ class Register extends Component {
 		const password = this.passwordRef.current.value;
 		const userType = this.state.userType;
 		const query = {
-			query: 
-			`
+			query:
+				`
 				query {
 			  	login(email:"${email}", password: "${password}", userType: ${userType}) {
 			    	userId
@@ -50,7 +50,7 @@ class Register extends Component {
 			);
 			// console.log(await response.json());
 			const result = await response.json();
-			if(result.data && result.data.login) {
+			if (result.data && result.data.login) {
 				this.context.login(
 					result.data.login.token,
 					result.data.login.userId,
@@ -66,21 +66,23 @@ class Register extends Component {
 
 	render() {
 		return (
-			<div className="auth-form">
-				<form onSubmit={this.handleSubmit}>
-					<div className="form-fields">
-						<label htmlFor='email'>Email:</label>
-						<input type='email' id='email' ref={this.emailRef}></input>
-					</div>
-					<div className="form-fields">
-						<label htmlFor='email'>Password:</label>
-						<input type='password' id='password' ref={this.passwordRef}></input>
-					</div>
-					<div className="form-actions">
-						<button type='button' onClick={this.changeUser}>Sign in as a {this.state.userType ? "Doctor" : "Patient"}</button>
-						<button type='submit'>Submit</button>
-					</div>
-				</form>
+			<div className='authform-container'>
+				<div className="auth-form">
+					<form onSubmit={this.handleSubmit}>
+						<div className="form-fields">
+							<label htmlFor='email'>Email:</label>
+							<input type='email' id='email' ref={this.emailRef}></input>
+						</div>
+						<div className="form-fields">
+							<label htmlFor='email'>Password:</label>
+							<input type='password' id='password' ref={this.passwordRef}></input>
+						</div>
+						<div className="form-actions">
+							<button type='button' onClick={this.changeUser}>Sign in as a {this.state.userType ? "Doctor" : "Patient"}</button>
+							<button type='submit'>Submit</button>
+						</div>
+					</form>
+				</div>
 			</div>
 		);
 	}

@@ -6,14 +6,32 @@ const bcrypt = require('bcryptjs');
 
 const getDepartment = async (id) => {
 	const department = await Department.findById(id);
-	return { ...department._doc, _id: department.id};
+	return { ...department._doc, _id: department.id };
+}
+
+const getDoctor = async id => {
+	const doctor = await Doctor.findById(id);
+	return { ...doctor._doc, _id: doctor.id, department: getDepartment.bind(this, doctor.department) };
+}
+
+const getPatient = async id => {
+	const patient = await Patient.findById(id);
+	return { ...patient._doc, _id: patient.id };
+}
+
+const getAppointments = async (id) => {
+	const appointment = await Appointment.findById(id);
+	return {
+		...appointment._doc, _id: appointment.id, department: getDepartment.bind(this, appointment.department),
+		doctor: getDoctor.bind(this, appointment.doctor), patient: getPatient.bind(this, appointment.patient),
+	};
 }
 
 module.exports = {
 	getDoctor: async (id) => {
 		try {
 			const doctor = await Doctor.findById(id);
-			if(doctor)
+			if (doctor)
 				return { ...doctor._doc, _id: doctor.id, password: null, department: getDepartment.bind(this, doctor.department) };
 			else
 				return null;
@@ -26,7 +44,7 @@ module.exports = {
 		try {
 			const doctors = await Doctor.find();
 			return doctors.map(doctor => {
-				return { ...doctor._doc, _id: doctor.id, password: null, department: getDepartment.bind(this, doctor.department) };
+				return { ...doctor._doc, _id: doctor.id, password: null, department: getDepartment.bind(this, doctor.department), appointments: doctor.appointments.map(appointment => { console.log(appointment); return getAppointments.bind(this, appointment); }) };
 			});
 		}
 		catch (err) {
@@ -35,8 +53,8 @@ module.exports = {
 	},
 	doctorsByName: async ({ name }) => {
 		try {
-			const doctors = await Doctor.find({name: {$regex: name, $options: 'i'}});
-			return doctors.map(doctor => {return{...doctor._doc, _id: doctor.id, department: getDepartment.bind(this, doctor.department)}});
+			const doctors = await Doctor.find({ name: { $regex: name, $options: 'i' } });
+			return doctors.map(doctor => { return { ...doctor._doc, _id: doctor.id, department: getDepartment.bind(this, doctor.department) } });
 		} catch (err) {
 			throw err;
 		}

@@ -19,7 +19,10 @@ const getPatient = async id => {
 }
 
 module.exports = {
-	appointments: async () => {
+	appointments: async (args, req) => {
+		// if(!req.isAuth) {
+		// 	throw new Error('Unauthenticated');
+		// }
 		try {
 			const appointments = await Appointment.find();
 			return appointments.map(appointment => {
@@ -34,9 +37,9 @@ module.exports = {
 		}
 	},
 	scheduleAppointment: async (args, req) => {
-		if(!req.isAuth) {
-			throw new Error('Unauthenticated');
-		} 
+		// if(!req.isAuth) {
+		// 	throw new Error('Unauthenticated');
+		// } 
 		try {
 			const patientId = req.userId;
 			const patient = await Patient.findById(patientId);
@@ -44,6 +47,7 @@ module.exports = {
 			const checkAppointment = await Appointment.findOne({ patient: patientId, doctor: doctor.id });
 			const departmentId = (await Department.findById(doctor.department)).id;
 			if (checkAppointment) {
+				await checkAppointment.updateOne({symptom: args.appointmentInput.symptom, date: args.appointmentInput.date})
 				return { ...checkAppointment._doc, _id: checkAppointment.id, date: new Date(checkAppointment.date).toISOString(), department: getDepartment.bind(this, departmentId), patient: getPatient.bind(this, patientId), doctor: getDoctor.bind(this, args.appointmentInput.doctor) };
 			}
 			console.log(departmentId);
@@ -68,11 +72,20 @@ module.exports = {
 			throw err;
 		}
 	},
-	cancelAppointment: async ({ appointmentId }) => {
-		const cancelledAppointment = await Appointment.findById(appointmentId);
-		await Patient.findByIdAndUpdate(cancelledAppointment.patient, { $pullAll: { appointments: [appointmentId] } });
-		await Doctor.findByIdAndUpdate(cancelledAppointment.doctor, { $pullAll: { appointments: [appointmentId] } });
-		await Appointment.findByIdAndDelete(appointmentId);
-		return { ...cancelledAppointment._doc, date: new Date(cancelledAppointment.date).toISOString(), _id: cancelledAppointment.id, doctor: getDoctor.bind(this, cancelledAppointment.doctor), patient: getPatient.bind(this, cancelledAppointment.patient), department: getDepartment.bind(this, cancelledAppointment.department) }
+	cancelAppointment: async (args, req) => {
+		// if(!req.isAuth) {
+		// 	throw new Error('Unauthenticated');
+		// }
+		try {
+			const appointmentId = args.appointmentId
+			const cancelledAppointment = await Appointment.findById(appointmentId);
+			await Patient.findByIdAndUpdate(cancelledAppointment.patient, { $pullAll: { appointments: [appointmentId] } });
+			await Doctor.findByIdAndUpdate(cancelledAppointment.doctor, { $pullAll: { appointments: [appointmentId] } });
+			await Appointment.findByIdAndDelete(appointmentId);
+			return { ...cancelledAppointment._doc, date: new Date(cancelledAppointment.date).toISOString(), _id: cancelledAppointment.id, doctor: getDoctor.bind(this, cancelledAppointment.doctor), patient: getPatient.bind(this, cancelledAppointment.patient), department: getDepartment.bind(this, cancelledAppointment.department) }
+		}
+		catch (err) {
+			throw err;
+		}
 	}
 }
