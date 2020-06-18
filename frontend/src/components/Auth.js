@@ -56,7 +56,7 @@ class Register extends Component {
 					result.data.login.tokenLife,
 					this.state.userType
 				);
-				// this.props.history.push('/opd-management/');
+				this.props.history.replace('/opd-management/');
 			}
 		} catch (err) {
 			throw err;

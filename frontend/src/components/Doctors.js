@@ -28,69 +28,7 @@ class Doctors extends Component {
 		})
 	}
 
-	bookAppointment = async () => {
-		const doctor = this.state.currDocId;
-		const date = this.dateRef.current.value
-		const symptom = this.symptomRef.current.value;
-		const query = {
-			query:
-				`
-				mutation {
-			  	scheduleAppointment(appointmentInput:{doctor:"${doctor}", symptom:"${symptom}", date: "${date}"}) {
-						patient {
-							_id
-							name
-							email
-						}
-						doctor {
-							_id
-							department {
-								_id
-								name
-								slots
-							}
-							name
-						}
-						department {
-							_id
-							name
-							slots
-						}
-						date
-						symptom
-					}
-				}
-			`
-		};
-		const body = {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': 'Bearer ' + this.context.token
-			},
-			body: JSON.stringify(query)
-		};
-		try {
-			const response = await fetch(
-				'http://localhost:8000/graphql',
-				body
-			);
-			// console.log(await response.json());
-			const result = await response.json();
-			// if (result.data && result.data.login) {
-			// this.props.history.push('/opd-management/');
-			// }
-			console.log('Doctors Component');
-			console.log(result);
-		} catch (err) {
-			throw err;
-		}
-		
-		this.setState({
-			showModal: false,
-		});
-	}
-
+	
 	onCancel = () => {
 		this.setState({
 			showModal: false
@@ -158,7 +96,7 @@ class Doctors extends Component {
 					<button className='btn submit-btn' onClick={this.handleSearch}>Search</button>
 				</div>
 				{this.state.showModal && <Backdrop />}
-				{this.state.showModal && <Modal onSubmit={this.bookAppointment} onCancel={this.onCancel}>
+				{this.state.showModal && <Modal onSubmit={() => {this.context.bookAppointment(this.state.currDocId, this.dateRef.current.value,this.symptomRef.current.value);}} onCancel={this.onCancel}>
 					<div className="modal-form">
 						<div className="form-fields">
 							<label htmlFor='symptom'>Symptoms:</label>

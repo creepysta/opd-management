@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import AuthContext from '../context/auth-context';
 
 class Navbar extends Component {
@@ -110,12 +110,17 @@ class Navbar extends Component {
 		// const { userType, user} = this.props.user;
 		this.toggleAccordions();
 		// let links = this.genLinks();
+		// console.log(this.props);
+		// console.log(this.context);
 		return (
 			<div className="nav">
 				<div id="topbar">
-					<button className="btn icon-btn" id="sidenav-toggle-btn" onClick={this.toggleNav}><i className="fa fa-bars"></i></button>
-					<div className="route-name">Route Name</div>
-					<button className="btn account-btn icon-btn" onClick={this.context.logout}>Log out</button>
+					<div className="leading">
+						<button className="btn icon-btn" id="sidenav-toggle-btn" onClick={this.toggleNav}><i className="fa fa-bars"></i></button>
+						<div className="route-name">Route Name</div>
+					</div>
+					{this.context.userId && <button className="btn account-btn" onClick={this.context.logout}>Log out</button>}
+					{!this.context.userId && <button className="btn account-btn" onClick={() => this.props.history.replace('/opd-management/auth')}>Login/Sign Up</button>}
 					{/* <i className="fa fa-bars"></i> */}
 				</div>
 				<div className="sidenav">
@@ -180,4 +185,4 @@ class Navbar extends Component {
 	};
 }
 
-export default Navbar;
+export default withRouter(Navbar);

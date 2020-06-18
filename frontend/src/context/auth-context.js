@@ -8,5 +8,7 @@ export default React.createContext({
 	user: null,
 	// TODO: async
 	login: async (token, userId, tokenLife, userType) => {},
-	logout: () => {} 
+	logout: () => {},
+	bookAppointment: async (date, symptom) => {},
+	cancelAppointment: async (id) => {} 
 });

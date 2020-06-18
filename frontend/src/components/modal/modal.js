@@ -7,7 +7,7 @@ const modal = (props) => (
 			{props.children}
 		</section>
 		<section className='modal-actions'>
-			<button className='submit-btn btn' onClick={props.onCancel}>Cancel</button>
+			<button className='submit-btn btn' onClick={props.onCancel}>Close</button>
 			<button className='submit-btn btn' onClick={props.onSubmit}>Proceed</button>
 		</section>
 	</div>

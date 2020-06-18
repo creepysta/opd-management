@@ -5,7 +5,6 @@ import Home from './components/Home';
 import Dashboard from './components/Dashboard';
 import Departments from './components/Departments';
 import Doctors from './components/Doctors';
-import Doctor from './components/Doctor';
 import Patient from './components/Patient';
 import Schedule from './components/Schedule';
 import Appointments from './components/Appointments';
@@ -26,6 +25,121 @@ class App extends Component {
 		user: null,
 	}
 	static contextType = AuthContext;
+
+	bookAppointment = async (doctor, date, symptom) => {
+		console.log(date);
+		console.log(symptom);
+		console.log(doctor);
+		const query = {
+			query:
+				`
+				mutation {
+			  	scheduleAppointment(appointmentInput:{doctor:"${doctor}", symptom:"${symptom}", date: "${date}"}) {
+						patient {
+							_id
+							name
+							email
+						}
+						doctor {
+							_id
+							department {
+								_id
+								name
+								slots
+							}
+							name
+						}
+						department {
+							_id
+							name
+							slots
+						}
+						date
+						symptom
+					}
+				}
+			`
+		};
+		const body = {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer ' + this.state.token
+			},
+			body: JSON.stringify(query)
+		};
+		try {
+			const response = await fetch(
+				'http://localhost:8000/graphql',
+				body
+			);
+			// console.log(await response.json());
+			const result = await response.json();
+			// if (result.data && result.data.login) {
+			// this.props.history.push('/opd-management/');
+			// }
+			// console.log('Doctors Component');
+			// console.log(result);
+			let currUser = this.state.user;
+			currUser.appointments.push(result);
+			this.setState({
+				user: currUser
+			})
+			console.log('Book Appointment');
+			console.log(this.state);
+		} catch (err) {
+			throw err;
+		}
+		
+		this.setState({
+			showModal: false,
+		});
+	}
+
+
+	cancelAppointment = async (id) => {
+		const query = {
+			query : 
+			`
+				mutation {
+					cancelAppointment(appointmentId:"${id}") {
+						_id
+						date
+						patient {
+							name
+						}
+						doctor {
+							name
+						}
+					}
+				}
+			`
+		};
+		const body = {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'Application/JSON',
+				'Authorization': 'Bearer ' + this.state.token, 
+			},
+			body: JSON.stringify(query),
+		}
+		try {
+			const response = await fetch('http://localhost:8000/graphql', body);
+			if(response.status === 200) console.log('Sucess');
+			else console.log('Failed');
+			const cancelledAppointment = await response.json();
+			console.log(cancelledAppointment);
+			let currUser = this.state.user
+			currUser.appointments.filter(appointment => appointment._id !== cancelledAppointment._id);
+			this.setState({
+				user: currUser,
+			})
+			console.log('Cancel Appointment');
+			console.log(this.state);
+		} catch (err) {
+			throw err;
+		}
+	}
 
 	// TODO: async 
 	login = async (token, userId, tokenLife, userType) => {
@@ -138,6 +252,7 @@ class App extends Component {
 	}
 
 	render() {
+		console.log(this.state);
 		return (
 			<BrowserRouter>
 				<div className="opd-management-system">
@@ -148,7 +263,9 @@ class App extends Component {
 						userType: this.state.userType,
 						user: this.state.user,
 						login: this.login,
-						logout: this.logout
+						logout: this.logout,
+						bookAppointment: this.bookAppointment, 
+						cancelAppointment: this.cancelAppointment, 
 					}}>
 						<Navbar />
 						<div id="main">
@@ -158,7 +275,6 @@ class App extends Component {
 								<Route exact path='/opd-management/dashboard' component={Dashboard} />
 								<Route exact path='/opd-management/departments' component={Departments} />
 								<Route exact path='/opd-management/doctors' component={Doctors} />
-								<Route exact path='/opd-management/doctors/:id' component={Doctor} />
 								<Route exact path='/opd-management/patient' component={Patient} />
 								<Route exact path='/opd-management/schedule' component={Schedule} />
 								<Route exact path='/opd-management/appointments' component={Appointments} />

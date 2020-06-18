@@ -5,7 +5,9 @@ body {
 
 #topbar {
   align-content: center;
-  overflow: hidden;
+  /* overflow: hidden; */
+  display: flex;
+  justify-content: space-between;
   height: 50px;
   width: auto;
   margin-left: 0px;
@@ -339,17 +341,22 @@ a {
   justify-content: space-between;
 }
 
-.appointment-card header {
+/* .appointment-card header {
   margin: .25rem;
-}
+} */
 
 .appointment-card h1 {
-  margin: 0;
+  margin-bottom: 1rem;
   font-size: 1.25rem;
 }
 
 .appointment-card h2 {
-  margin: 0;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.appointment-card button {
+  margin-top: .25rem;
   font-size: 1rem;
 }
 
