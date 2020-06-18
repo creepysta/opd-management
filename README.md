@@ -1,5 +1,6 @@
-any contribution to the design is much appreciated
+# Stick around, not yet completed
 
+## Road Map
 ### graphs to show in home
 - appointment
 - patient
