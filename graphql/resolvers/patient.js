@@ -23,10 +23,12 @@ module.exports = {
 		})
 	},
 	createPatient: async args => {
+		console.log(args);
 		const dpUrl = args.patientInput.dpUrl ? args.patientInput.dpUrl : 'https://giantbomb1.cbsistatic.com/uploads/scale_medium/2/27436/2722697-gon_freecss_2617.jpg';
 		try {
-			const checkPatient = await Patient.find({email: args.patientInput.email});
+			const checkPatient = await Patient.findOne({email: args.patientInput.email});
 			if(checkPatient) {
+				console.log(checkPatient);
 				throw new Error('Profile already exists. Try logging in');
 			}
 			const password = await bcrypt.hash(args.patientInput.password, 12)

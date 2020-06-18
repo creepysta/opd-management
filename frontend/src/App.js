@@ -81,12 +81,13 @@ class App extends Component {
 			// console.log('Doctors Component');
 			// console.log(result);
 			let currUser = this.state.user;
+			currUser.appointments = currUser.appointments.filter(appointment => appointment._id !== result._id);
 			currUser.appointments.push(result);
 			this.setState({
 				user: currUser
 			})
-			console.log('Book Appointment');
-			console.log(this.state);
+			// console.log('Book Appointment');
+			// console.log(this.state);
 		} catch (err) {
 			throw err;
 		}
@@ -134,8 +135,8 @@ class App extends Component {
 			this.setState({
 				user: currUser,
 			})
-			console.log('Cancel Appointment');
-			console.log(this.state);
+			// console.log('Cancel Appointment');
+			// console.log(this.state);
 		} catch (err) {
 			throw err;
 		}
@@ -252,7 +253,7 @@ class App extends Component {
 	}
 
 	render() {
-		console.log(this.state);
+		// console.log(this.state);
 		return (
 			<BrowserRouter>
 				<div className="opd-management-system">
