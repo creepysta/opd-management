@@ -1,13 +1,11 @@
 const bcrypt = require('bcryptjs');
 const Doctor = require('../../models/doctor');
 const Patient = require('../../models/patient');
-const Appointment = require('../../models/appointment');
-const Department = require('../../models/department');
 const jwt = require('jsonwebtoken');
 
 module.exports = {
 	login: async ({email, password, userType}) => {
-		checkUser = null;
+		let checkUser = null;
 		if(userType===1) {
 			checkUser = await Doctor.findOne({email: email});
 		} else {
@@ -22,9 +20,9 @@ module.exports = {
 		} else {
 			const token = jwt.sign({userId: checkUser.id, email: checkUser._doc.email}, 'some_key_for_validation',
 			{
-				expiresIn: '500h'
+				expiresIn: '24h'
 			});
-			return { userId: checkUser.id, token: token, tokenLife: 500};	
+			return { userId: checkUser.id, token: token, tokenLife: 24};	
 		}
 	}
 };

@@ -6,6 +6,12 @@ import AuthContext from "../context/auth-context";
 
 class Doctors extends Component {
 
+	state = {
+		doctors: [],
+		showModal: false,
+		currDocId: null,
+	};
+
 	constructor(props) {
 		super(props);
 		this.docNameRef = React.createRef();
@@ -13,15 +19,17 @@ class Doctors extends Component {
 		this.dateRef = React.createRef();
 	}
 
-	state = {
-		doctors: [],
-		showModal: true,
-	};
-
 	static contextType = AuthContext;
 
-	bookAppointment = async (id) => {
-		const doctor = id;
+	openform = (currId) => {
+		this.setState({
+			showModal: true,
+			currDocId: currId
+		})
+	}
+
+	bookAppointment = async () => {
+		const doctor = this.state.currDocId;
 		const date = this.dateRef.current.value
 		const symptom = this.symptomRef.current.value;
 		const query = {
@@ -70,22 +78,23 @@ class Doctors extends Component {
 			// console.log(await response.json());
 			const result = await response.json();
 			// if (result.data && result.data.login) {
-				// this.props.history.push('/opd-management/');
+			// this.props.history.push('/opd-management/');
 			// }
 			console.log('Doctors Component');
 			console.log(result);
 		} catch (err) {
 			throw err;
 		}
-		this.setState((state, props) => ({
-			showModal: !state.showModal,
-		}));
+		
+		this.setState({
+			showModal: false,
+		});
 	}
 
 	onCancel = () => {
-		this.setState((state, props) => ({
-			showModal: !state.showModal
-		}));
+		this.setState({
+			showModal: false
+		});
 	}
 
 	handleSearch = async () => {
@@ -140,7 +149,7 @@ class Doctors extends Component {
 	render() {
 		let dispList = [];
 		this.state.doctors.forEach((doctor) => dispList.push(
-			<Doctor doctor={doctor} bookAppointment={this.bookAppointment} key={doctor._id} />
+			<Doctor doctor={doctor} openform={this.openform} key={doctor._id} />
 		));
 		return (
 			<div className="doctor">
@@ -163,6 +172,11 @@ class Doctors extends Component {
 				</Modal>}
 				<div className="display-container">
 					{dispList}
+					{/* {
+						this.state.doctors.map((doctor) => (
+							<Doctor doctor={doctor} openform={this.openForm} key={doctor._id} />
+						))
+					} */}
 				</div>
 			</div>
 		);

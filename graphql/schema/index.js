@@ -24,7 +24,7 @@ type Patient {
 	email: String!
 	age: Int!
 	password: String
-	appointments: [Appointment!]
+	appointments: [Appointment!]!
 }
 
 input PatientInput {
@@ -44,7 +44,7 @@ type Doctor {
 	experience: Int!
 	qualifications: [String!]
 	department: Department!
-	appointments: [Appointment!]
+	appointments: [Appointment!]!
 	specializations: [String!]
 }
 

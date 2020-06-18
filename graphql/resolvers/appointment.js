@@ -2,27 +2,13 @@ const Appointment = require('../../models/appointment');
 const Doctor = require('../../models/doctor');
 const Patient = require('../../models/patient');
 const Department = require('../../models/department');
-
-const getDoctor = async id => {
-	const doctor = await Doctor.findById(id);
-	return { ...doctor._doc, _id: doctor.id, department: getDepartment.bind(this, doctor.department) };
-}
-
-const getDepartment = async id => {
-	const department = await Department.findById(id);
-	return { ...department._doc, _id: department.id };
-}
-
-const getPatient = async id => {
-	const patient = await Patient.findById(id);
-	return { ...patient._doc, _id: patient.id };
-}
+const { getDoctor, getPatient, getDepartment } = require ('./fetch/fetch');
 
 module.exports = {
 	appointments: async (args, req) => {
-		// if(!req.isAuth) {
-		// 	throw new Error('Unauthenticated');
-		// }
+		if(!req.isAuth) {
+			throw new Error('Unauthenticated');
+		}
 		try {
 			const appointments = await Appointment.find();
 			return appointments.map(appointment => {
@@ -37,9 +23,9 @@ module.exports = {
 		}
 	},
 	scheduleAppointment: async (args, req) => {
-		// if(!req.isAuth) {
-		// 	throw new Error('Unauthenticated');
-		// } 
+		if(!req.isAuth) {
+			throw new Error('Unauthenticated');
+		} 
 		try {
 			const patientId = req.userId;
 			const patient = await Patient.findById(patientId);
@@ -73,9 +59,9 @@ module.exports = {
 		}
 	},
 	cancelAppointment: async (args, req) => {
-		// if(!req.isAuth) {
-		// 	throw new Error('Unauthenticated');
-		// }
+		if(!req.isAuth) {
+			throw new Error('Unauthenticated');
+		}
 		try {
 			const appointmentId = args.appointmentId
 			const cancelledAppointment = await Appointment.findById(appointmentId);

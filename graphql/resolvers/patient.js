@@ -1,5 +1,6 @@
 const Patient = require('../../models/patient');
 const bcrypt = require('bcryptjs');
+const { getAppointments } = require('./fetch/fetch');
 
 module.exports = {
 	getPatient: async ({id}) => {
@@ -7,7 +8,7 @@ module.exports = {
 		try {
 			const patient = await Patient.findById(id);
 			if(patient)
-				return { ...patient._doc, _id: patient.id, password: null};
+				return { ...patient._doc, _id: patient.id, password: null, appointments: getAppointments.bind(this, patient.appointments)};
 			else 
 				return null;
 		}
@@ -18,7 +19,7 @@ module.exports = {
 	patients: async () => {
 		const patients = await Patient.find();
 		return patients.map(patient => {
-			return {...patient._doc, _id: patient.id, password: null}
+			return {...patient._doc, _id: patient.id, password: null, appointments: getAppointments.bind(this, patient.appointments)}
 		})
 	},
 	createPatient: async args => {

@@ -23,10 +23,9 @@ class Register extends Component {
 		event.preventDefault();
 		const email = this.emailRef.current.value;
 		const password = this.passwordRef.current.value;
-		const userType = this.state.userType;
+		const userType = +this.state.userType;
 		const query = {
-			query:
-				`
+			query: `
 				query {
 			  	login(email:"${email}", password: "${password}", userType: ${userType}) {
 			    	userId

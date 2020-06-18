@@ -324,3 +324,32 @@ a {
   display: block;
   width: 100%;
 }
+
+.card {
+  background-color: white;
+  border: 1px #01d1d1 solid;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+  padding: 1rem;
+}
+
+.appointment-card {
+  width: 60%;
+  margin: 1rem auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+.appointment-card header {
+  margin: .25rem;
+}
+
+.appointment-card h1 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.appointment-card h2 {
+  margin: 0;
+  font-size: 1rem;
+}
+

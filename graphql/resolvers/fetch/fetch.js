@@ -18,19 +18,23 @@ const getPatient = async id => {
 	return { ...patient._doc, _id: patient.id };
 }
 
-const getAppointments = async (id) => {
+const getAppointment = async (id) => {
 	const appointment = await Appointment.findById(id);
-	console.log(appointment);
 	return {
 		...appointment._doc, _id: appointment.id, department: getDepartment.bind(this, appointment.department),
 		doctor: getDoctor.bind(this, appointment.doctor), patient: getPatient.bind(this, appointment.patient),
-		date: new Date(appointment.date).toISOString(),
+		date: new Date(appointment.date).toISOString()
 	};
+}
+
+const getAppointments = async (ids) => {
+	return ids.map(async id => await getAppointment(id));
 }
 
 module.exports = {
 	getDepartment: getDepartment,
 	getDoctor: getDoctor,
 	getPatient: getPatient,
+	getAppointment: getAppointment,
 	getAppointments: getAppointments,
 };

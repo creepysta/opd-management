@@ -31,6 +31,10 @@ class App extends Component {
 	login = async (token, userId, tokenLife, userType) => {
 		let userData;
 		let query;
+		// console.log(token);
+		// console.log(userId);
+		// console.log(tokenLife);
+		// console.log(userType);
 		if (token) {
 			if (userType) {
 				query = {
@@ -39,13 +43,23 @@ class App extends Component {
 							getDoctor(id: "${userId}") {
 								_id
 								name
-								dpUrl
 								email
+								dpUrl
 								department {
 									name
 								}
 								experience
 								specializations
+								appointments {
+									_id
+									date
+									symptom
+									patient {
+										name
+										dpUrl
+										email
+									}
+								}
 							}
 						}
 					`
@@ -57,10 +71,27 @@ class App extends Component {
 						query {
 							getPatient(id: "${userId}") {
 								_id
-								dpUrl
 								name
 								email
-								age
+								dpUrl
+								appointments {
+									_id
+									date
+									symptom
+									department {
+										name
+									}
+									doctor {
+										name
+										email
+										dpUrl
+										specializations
+										experience
+										department {
+											name
+										}
+									}
+								}
 							}
 						}
 					`
@@ -75,18 +106,22 @@ class App extends Component {
 				body: JSON.stringify(query)
 			};
 			try {
-				userData = await (await fetch('http://localhost:8000/graphql', requestBody)).json();
+				const response = await fetch('http://localhost:8000/graphql', requestBody);
+				if(response.status === 200) console.log('Success');
+				userData = await response.json();
 			} catch (err) {
 				console.log(err);
 			}
 			// console.log(userData);
-			this.setState({
-				token: token,
-				userId: userId,
-				tokenLife: tokenLife,
-				userType: userType,
-				user: userType ? { ...userData.data.getDoctor } : { ...userData.data.getPatient }
-			});
+			if(userData.data && (userData.data.getDoctor || userData.data.getPatient)) {
+				this.setState({
+					token: token,
+					userId: userId,
+					tokenLife: tokenLife,
+					userType: userType,
+					user: userType ? { ...userData.data.getDoctor } : { ...userData.data.getPatient }
+				});
+			}
 			// console.log('APP');
 			// console.log(this.state);
 		}
