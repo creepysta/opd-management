@@ -47,7 +47,10 @@ const Appointments = (props) => {
 														<h1>{appointment.doctor.name}</h1>
 													</header>
 													<h2>{appointment.doctor.email}</h2>
-													<section className='experience'>
+													<section className='department'>
+														{appointment.doctor.department.name} department
+												</section>
+												<section className='experience'>
 														Experience: {appointment.doctor.experience} years
 												</section>
 												</div>

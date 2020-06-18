@@ -35,6 +35,7 @@ class App extends Component {
 				`
 				mutation {
 			  	scheduleAppointment(appointmentInput:{doctor:"${doctor}", symptom:"${symptom}", date: "${date}"}) {
+						_id
 						patient {
 							_id
 							name
@@ -42,6 +43,8 @@ class App extends Component {
 						}
 						doctor {
 							_id
+							email
+							experience
 							department {
 								_id
 								name
@@ -80,14 +83,15 @@ class App extends Component {
 			// }
 			// console.log('Doctors Component');
 			// console.log(result);
+			console.log('Book Appointment');
+			console.log(result);
 			let currUser = this.state.user;
-			currUser.appointments = currUser.appointments.filter(appointment => appointment._id !== result._id);
-			currUser.appointments.push(result);
+			currUser.appointments = currUser.appointments.filter(appointment => appointment._id !== result.data.scheduleAppointment._id);
+			currUser.appointments.push(result.data.scheduleAppointment);
 			this.setState({
 				user: currUser
 			})
-			// console.log('Book Appointment');
-			// console.log(this.state);
+			console.log(this.state);
 		} catch (err) {
 			throw err;
 		}
@@ -129,14 +133,14 @@ class App extends Component {
 			if(response.status === 200) console.log('Sucess');
 			else console.log('Failed');
 			const cancelledAppointment = await response.json();
+			console.log('Cancel Appointment');
 			console.log(cancelledAppointment);
 			let currUser = this.state.user
-			currUser.appointments.filter(appointment => appointment._id !== cancelledAppointment._id);
+			currUser.appointments.filter(appointment => appointment._id !== cancelledAppointment.data.cancelAppointment._id);
 			this.setState({
 				user: currUser,
 			})
-			// console.log('Cancel Appointment');
-			// console.log(this.state);
+			console.log(this.state);
 		} catch (err) {
 			throw err;
 		}
