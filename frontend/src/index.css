@@ -335,7 +335,7 @@ a {
 }
 
 .appointment-card {
-  width: 60%;
+  width: 50%;
   margin: 1rem auto;
   display: flex;
   justify-content: space-between;
@@ -344,6 +344,20 @@ a {
 /* .appointment-card header {
   margin: .25rem;
 } */
+
+.appointment-card .profile {
+  display: flex;
+  align-items: center;
+}
+
+.appointment-card .profile img {
+  height: 3rem;
+  width: 3rem;
+  border-radius: 50%;
+  border: 1px solid #01d1d1;
+  padding: .2rem;
+  margin-right: .5rem;
+}
 
 .appointment-card h1 {
   margin-bottom: 1rem;

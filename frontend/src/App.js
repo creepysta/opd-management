@@ -135,11 +135,12 @@ class App extends Component {
 			const cancelledAppointment = await response.json();
 			console.log('Cancel Appointment');
 			console.log(cancelledAppointment);
-			let currUser = this.state.user
-			currUser.appointments.filter(appointment => appointment._id !== cancelledAppointment.data.cancelAppointment._id);
+			let currUser = this.state.user;
+			// if(cancelledAppointment != null )
+			currUser.appointments = currUser.appointments.filter(appointment => appointment._id !== cancelledAppointment.data.cancelAppointment._id);
 			this.setState({
 				user: currUser,
-			})
+			});
 			console.log(this.state);
 		} catch (err) {
 			throw err;

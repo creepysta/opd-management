@@ -3,33 +3,6 @@ import React from "react";
 import AuthContext from '../context/auth-context';
 
 const Appointments = (props) => {
-	// render() {
-	// let appointmentList = [];
-	// if (this.props.appointments) {
-	// 	// console.log(this.context.user.appointments);
-	// 	this.props.appointments.forEach(appointment => {
-	// 		appointmentList.push(
-	// 			<div className=" card appointment-card" key={appointment._id}>
-	// 				<div className="doctor">
-	// 					<header>
-	// 						<h1>{appointment.doctor.name}</h1>
-	// 					</header>
-	// 					<h2>{appointment.doctor.email}</h2>
-	// 					{/* <p>
-	// 					</p> */}
-	// 					<section className='experience'>
-	// 						Experience: {appointment.doctor.experience} years
-	// 					</section>
-	// 				</div>
-	// 				<div className="details">
-	// 					<h1>{appointment.date}</h1>
-	// 					<h2>{appointment.symptom}</h2>
-	// 					<button className="btn submit-btn" onClick={() => this.cancelAppointment(appointment._id)}>Cancel</button>
-	// 				</div>
-	// 			</div>
-	// 		)
-	// 	});
-	// }
 	return (
 		<AuthContext.Consumer>
 			{
@@ -43,16 +16,19 @@ const Appointments = (props) => {
 										{context.user.appointments.map(appointment => (
 											<div className=" card appointment-card" key={appointment._id}>
 												<div className="doctor">
-													<header>
-														<h1>{appointment.doctor.name}</h1>
-													</header>
+													<div className="profile">
+														<img src={appointment.doctor.dpUrl} alt={appointment.doctor.name} />
+														<header>
+															<h1>{appointment.doctor.name}</h1>
+														</header>
+													</div>
 													<h2>{appointment.doctor.email}</h2>
 													<section className='department'>
 														{appointment.doctor.department.name} department
-												</section>
-												<section className='experience'>
+													</section>
+													<section className='experience'>
 														Experience: {appointment.doctor.experience} years
-												</section>
+													</section>
 												</div>
 												<div className="details">
 													<h1>Due: {appointment.date}</h1>

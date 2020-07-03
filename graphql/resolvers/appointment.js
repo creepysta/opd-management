@@ -11,6 +11,7 @@ module.exports = {
 		}
 		try {
 			const appointments = await Appointment.find();
+			// if(appointments==null) return [];
 			return appointments.map(appointment => {
 				return {
 					...appointment._doc, _id: appointment.id, date: new Date(appointment.date).toISOString(), patient: getPatient.bind(this, appointment.patient),
@@ -52,7 +53,7 @@ module.exports = {
 			doctor.appointments.push(result.id);
 			// console.log(doctor._doc.appointments)
 			await doctor.save();
-			return { ...result._doc, _id: result.id, date: new Date(cancelledAppointment.date).toISOString(), department: getDepartment.bind(this, departmentId), patient: getPatient.bind(this, patientId), doctor: getDoctor.bind(this, args.appointmentInput.doctor) };
+			return { ...result._doc, _id: result.id, date: new Date(result.date).toISOString(), department: getDepartment.bind(this, departmentId), patient: getPatient.bind(this, patientId), doctor: getDoctor.bind(this, args.appointmentInput.doctor) };
 		}
 		catch (err) {
 			throw err;
@@ -63,7 +64,7 @@ module.exports = {
 			throw new Error('Unauthenticated');
 		}
 		try {
-			const appointmentId = args.appointmentId
+			const appointmentId = args.appointmentId;
 			const cancelledAppointment = await Appointment.findById(appointmentId);
 			await Patient.findByIdAndUpdate(cancelledAppointment.patient, { $pullAll: { appointments: [appointmentId] } });
 			await Doctor.findByIdAndUpdate(cancelledAppointment.doctor, { $pullAll: { appointments: [appointmentId] } });
@@ -71,7 +72,7 @@ module.exports = {
 			return { ...cancelledAppointment._doc, date: new Date(cancelledAppointment.date).toISOString(), _id: cancelledAppointment.id, doctor: getDoctor.bind(this, cancelledAppointment.doctor), patient: getPatient.bind(this, cancelledAppointment.patient), department: getDepartment.bind(this, cancelledAppointment.department) }
 		}
 		catch (err) {
-			throw err;
+			console.log(err);
 		}
 	}
 }
